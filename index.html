@@ -11,9 +11,20 @@
         padding: 20px;
     }
     h1 {
-        color: #FFE797; /* color perla para título principal */
+        color: #FFE797; /* perla correcto */
         text-align: center;
-        margin-bottom: 40px;
+        margin-bottom: 20px;
+    }
+    .btn-general {
+        display: block;
+        margin: 0 auto 30px auto;
+        font-size: 14px;
+        cursor: pointer;
+        background: #B45253;
+        color: #FFE797;
+        border: none;
+        border-radius: 5px;
+        padding: 6px 12px;
     }
     .malla {
         display: flex;
@@ -22,7 +33,7 @@
         padding-bottom: 20px;
     }
     .trimestre {
-        background-color: #FFE797; /* color perla para trimestres */
+        background-color: #FFE797; /* perla para trimestres */
         padding: 10px;
         border-radius: 10px;
         min-width: 250px;
@@ -72,140 +83,100 @@
         display: none;
         margin-top: 3px;
     }
-    .btn-toggle {
-        display: block;
-        margin: 5px 0 10px 0;
-        font-size: 12px;
-        cursor: pointer;
-        background: #B45253;
-        color: #FFE797;
-        border: none;
-        border-radius: 5px;
-        padding: 3px 6px;
-    }
 </style>
 </head>
 <body>
 <h1>Licenciatura en Psicología</h1>
+<button class="btn-general" id="btnMostrarTodos">Mostrar requisitos de todas las clases</button>
 <div class="malla" id="malla"></div>
 
 <script>
 const trimestres = [
-    {
-        nombre: "I Trimestre",
-        materias: [
-            {nombre: "Español"},
-            {nombre: "Biología"},
-            {nombre: "Matemáticas"},
-            {nombre: "Introducción a la Psicología"},
-            {nombre: "Filosofía"}
-        ]
-    },
-    {
-        nombre: "II Trimestre",
-        materias: [
-            {nombre: "Expresión Oral y Escrita", requiere: ["Español"]},
-            {nombre: "Sociología"},
-            {nombre: "Estadística", requiere: ["Matemáticas"]},
-            {nombre: "Historia de Honduras"},
-            {nombre: "Teorías de Personalidad", requiere: ["Introducción a la Psicología"]},
-            {nombre: "El Hombre Frente a la Vida", requiere: ["Filosofía"]}
-        ]
-    },
-    {
-        nombre: "III Trimestre",
-        materias: [
-            {nombre: "Psicofisiología I", requiere: ["Biología"]},
-            {nombre: "Métodos y Técnicas de Investigación", requiere: ["Estadística"]},
-            {nombre: "Entrevista Psicológica", requiere: ["Expresión Oral y Escrita"]},
-            {nombre: "Redacción Psicológica", requiere: ["Expresión Oral y Escrita"]},
-            {nombre: "Informática"},
-            {nombre: "Ética Profesional", requiere: ["El Hombre Frente a la Vida"]},
-            {nombre: "Ecología"},
-            {nombre: "Electiva I"}
-        ]
-    },
-    {
-        nombre: "IV Trimestre",
-        materias: [
-            {nombre: "Psicofisiología II", requiere: ["Psicofisiología I"]},
-            {nombre: "Métodos de Investigación Psicológica", requiere: ["Métodos y Técnicas de Investigación"]},
-            {nombre: "Psicología del Desarrollo del Niño", requiere: ["Teorías de Personalidad"]},
-            {nombre: "Psicología del Desarrollo del Adolescente", requiere: ["Teorías de Personalidad"]},
-            {nombre: "Psicopatología I"},
-            {nombre: "Electiva II"},
-            {nombre: "Electiva III"},
-            {nombre: "Doctrina Social de la Iglesia", requiere: ["Ética Profesional"]}
-        ]
-    },
-    {
-        nombre: "V Trimestre",
-        materias: [
-            {nombre: "Psicometría I", requiere: ["Métodos de Investigación Psicológica","Psicología del Desarrollo del Niño"]},
-            {nombre: "Teoría y Clínica del Psicoanálisis", requiere: ["Psicología del Desarrollo del Niño"]},
-            {nombre: "Psicología de las Organizaciones I", requiere: ["Métodos de Investigación Psicológica"]},
-            {nombre: "Psicología Social I", requiere: ["Métodos de Investigación Psicológica"]},
-            {nombre: "Psicopatología II", requiere: ["Psicopatología I"]},
-            {nombre: "Psicología del Desarrollo de la Adultez y la Vejez", requiere: ["Psicología del Desarrollo del Adolescente"]},
-            {nombre: "Ética en Psicología", requiere: ["Ética Profesional"]}
-        ]
-    },
-    {
-        nombre: "VI Trimestre",
-        materias: [
-            {nombre: "Psicometría II", requiere: ["Psicometría I"]},
-            {nombre: "Técnicas Proyectivas I", requiere: ["Teoría y Clínica del Psicoanálisis"]},
-            {nombre: "Teoría e Intervención en Psicología Humanística", requiere: ["Psicología del Desarrollo de la Adultez y la Vejez"]},
-            {nombre: "Psicología de las Organizaciones II", requiere: ["Psicología de las Organizaciones I"]},
-            {nombre: "Psicología Social II", requiere: ["Psicología Social I"]},
-            {nombre: "Psicología del Aprendizaje", requiere: ["Métodos de Investigación Psicológica"]},
-            {nombre: "Gestión de la Calidad Total"}
-        ]
-    },
-    {
-        nombre: "VII Trimestre",
-        materias: [
-            {nombre: "Psicometría III", requiere: ["Psicometría II"]},
-            {nombre: "Técnicas Proyectivas II", requiere: ["Técnicas Proyectivas I"]},
-            {nombre: "Teoría e Intervención en Psicología Cognitiva", requiere: ["Teoría e Intervención en Psicología Humanística"]},
-            {nombre: "Psicología del Talento Humano", requiere: ["Psicología de las Organizaciones II"]},
-            {nombre: "Psicología del Deporte", requiere: ["Psicología de las Organizaciones II"]},
-            {nombre: "Psicología Preventiva y Salud Pública", requiere: ["Psicología Social II"]},
-            {nombre: "Psicología Educativa", requiere: ["Psicología del Aprendizaje"]}
-        ]
-    },
-    {
-        nombre: "VIII Trimestre",
-        materias: [
-            {nombre: "Psicometría IV", requiere: ["Psicometría III"]},
-            {nombre: "Teoría y Abordaje de la intervención en Crisis", requiere: ["Psicología Preventiva y Salud Pública"]},
-            {nombre: "Técnicas Terapéuticas I", requiere: ["Teoría e Intervención en Psicología Cognitiva"]},
-            {nombre: "Orientación y Consejería Psicológica", requiere: ["Teoría e Intervención en Psicología Cognitiva"]},
-            {nombre: "Diagnóstico e Intervención Psicoeducativa", requiere: ["Psicología Educativa"]},
-            {nombre: "Control Estadístico de la Calidad", requiere: ["Gestión de la Calidad Total"]}
-        ]
-    },
-    {
-        nombre: "IX Trimestre",
-        materias: [
-            {nombre: "Técnicas Terapéuticas II", requiere: ["Técnicas Terapéuticas I"]},
-            {nombre: "Diagnósticos e Informes Psicológicos", requiere: ["Técnicas Proyectivas II","Psicometría IV"]},
-            {nombre: "Metodología y Modelos de Intervención Comunitaria", requiere: ["Teoría y Abordaje de la intervención en Crisis"]},
-            {nombre: "Orientación Vocacional y Profesional", requiere: ["Diagnóstico e Intervención Psicoeducativa"]},
-            {nombre: "Psicología Jurídica", requiere: ["Orientación y Consejería Psicológica"]},
-            {nombre: "Nutrición"}
-        ]
-    },
-    {
-        nombre: "X Trimestre",
-        materias: [
-            {nombre: "Diseño y Desarrollo de Proyectos de Psicología Aplicada"},
-            {nombre: "Seminario de Investigación en Psicología Aplicada", requiere: ["Métodos de Investigación Psicológica"]},
-            {nombre: "Seminario de Salud Mental en Honduras", requiere: ["Metodología y Modelos de Intervención Comunitaria"]},
-            {nombre: "Planeación y Diseño de un Modelo de Calidad", requiere: ["Control Estadístico de la Calidad"]},
-            {nombre: "Práctica"}
-        ]
-    }
+    {nombre: "I Trimestre", materias: [
+        {nombre: "Español"},
+        {nombre: "Biología"},
+        {nombre: "Matemáticas"},
+        {nombre: "Introducción a la Psicología"},
+        {nombre: "Filosofía"}
+    ]},
+    {nombre: "II Trimestre", materias: [
+        {nombre: "Expresión Oral y Escrita", requiere: ["Español"]},
+        {nombre: "Sociología"},
+        {nombre: "Estadística", requiere: ["Matemáticas"]},
+        {nombre: "Historia de Honduras"},
+        {nombre: "Teorías de Personalidad", requiere: ["Introducción a la Psicología"]},
+        {nombre: "El Hombre Frente a la Vida", requiere: ["Filosofía"]}
+    ]},
+    {nombre: "III Trimestre", materias: [
+        {nombre: "Psicofisiología I", requiere: ["Biología"]},
+        {nombre: "Métodos y Técnicas de Investigación", requiere: ["Estadística"]},
+        {nombre: "Entrevista Psicológica", requiere: ["Expresión Oral y Escrita"]},
+        {nombre: "Redacción Psicológica", requiere: ["Expresión Oral y Escrita"]},
+        {nombre: "Informática"},
+        {nombre: "Ética Profesional", requiere: ["El Hombre Frente a la Vida"]},
+        {nombre: "Ecología"},
+        {nombre: "Electiva I"}
+    ]},
+    {nombre: "IV Trimestre", materias: [
+        {nombre: "Psicofisiología II", requiere: ["Psicofisiología I"]},
+        {nombre: "Métodos de Investigación Psicológica", requiere: ["Métodos y Técnicas de Investigación"]},
+        {nombre: "Psicología del Desarrollo del Niño", requiere: ["Teorías de Personalidad"]},
+        {nombre: "Psicología del Desarrollo del Adolescente", requiere: ["Teorías de Personalidad"]},
+        {nombre: "Psicopatología I"},
+        {nombre: "Electiva II"},
+        {nombre: "Electiva III"},
+        {nombre: "Doctrina Social de la Iglesia", requiere: ["Ética Profesional"]}
+    ]},
+    {nombre: "V Trimestre", materias: [
+        {nombre: "Psicometría I", requiere: ["Métodos de Investigación Psicológica","Psicología del Desarrollo del Niño"]},
+        {nombre: "Teoría y Clínica del Psicoanálisis", requiere: ["Psicología del Desarrollo del Niño"]},
+        {nombre: "Psicología de las Organizaciones I", requiere: ["Métodos de Investigación Psicológica"]},
+        {nombre: "Psicología Social I", requiere: ["Métodos de Investigación Psicológica"]},
+        {nombre: "Psicopatología II", requiere: ["Psicopatología I"]},
+        {nombre: "Psicología del Desarrollo de la Adultez y la Vejez", requiere: ["Psicología del Desarrollo del Adolescente"]},
+        {nombre: "Ética en Psicología", requiere: ["Ética Profesional"]}
+    ]},
+    {nombre: "VI Trimestre", materias: [
+        {nombre: "Psicometría II", requiere: ["Psicometría I"]},
+        {nombre: "Técnicas Proyectivas I", requiere: ["Teoría y Clínica del Psicoanálisis"]},
+        {nombre: "Teoría e Intervención en Psicología Humanística", requiere: ["Psicología del Desarrollo de la Adultez y la Vejez"]},
+        {nombre: "Psicología de las Organizaciones II", requiere: ["Psicología de las Organizaciones I"]},
+        {nombre: "Psicología Social II", requiere: ["Psicología Social I"]},
+        {nombre: "Psicología del Aprendizaje", requiere: ["Métodos de Investigación Psicológica"]},
+        {nombre: "Gestión de la Calidad Total"}
+    ]},
+    {nombre: "VII Trimestre", materias: [
+        {nombre: "Psicometría III", requiere: ["Psicometría II"]},
+        {nombre: "Técnicas Proyectivas II", requiere: ["Técnicas Proyectivas I"]},
+        {nombre: "Teoría e Intervención en Psicología Cognitiva", requiere: ["Teoría e Intervención en Psicología Humanística"]},
+        {nombre: "Psicología del Talento Humano", requiere: ["Psicología de las Organizaciones II"]},
+        {nombre: "Psicología del Deporte", requiere: ["Psicología de las Organizaciones II"]},
+        {nombre: "Psicología Preventiva y Salud Pública", requiere: ["Psicología Social II"]},
+        {nombre: "Psicología Educativa", requiere: ["Psicología del Aprendizaje"]}
+    ]},
+    {nombre: "VIII Trimestre", materias: [
+        {nombre: "Psicometría IV", requiere: ["Psicometría III"]},
+        {nombre: "Teoría y Abordaje de la intervención en Crisis", requiere: ["Psicología Preventiva y Salud Pública"]},
+        {nombre: "Técnicas Terapéuticas I", requiere: ["Teoría e Intervención en Psicología Cognitiva"]},
+        {nombre: "Orientación y Consejería Psicológica", requiere: ["Teoría e Intervención en Psicología Cognitiva"]},
+        {nombre: "Diagnóstico e Intervención Psicoeducativa", requiere: ["Psicología Educativa"]},
+        {nombre: "Control Estadístico de la Calidad", requiere: ["Gestión de la Calidad Total"]}
+    ]},
+    {nombre: "IX Trimestre", materias: [
+        {nombre: "Técnicas Terapéuticas II", requiere: ["Técnicas Terapéuticas I"]},
+        {nombre: "Diagnósticos e Informes Psicológicos", requiere: ["Técnicas Proyectivas II","Psicometría IV"]},
+        {nombre: "Metodología y Modelos de Intervención Comunitaria", requiere: ["Teoría y Abordaje de la intervención en Crisis"]},
+        {nombre: "Orientación Vocacional y Profesional", requiere: ["Diagnóstico e Intervención Psicoeducativa"]},
+        {nombre: "Psicología Jurídica", requiere: ["Orientación y Consejería Psicológica"]},
+        {nombre: "Nutrición"}
+    ]},
+    {nombre: "X Trimestre", materias: [
+        {nombre: "Diseño y Desarrollo de Proyectos de Psicología Aplicada"},
+        {nombre: "Seminario de Investigación en Psicología Aplicada", requiere: ["Métodos de Investigación Psicológica"]},
+        {nombre: "Seminario de Salud Mental en Honduras", requiere: ["Metodología y Modelos de Intervención Comunitaria"]},
+        {nombre: "Planeación y Diseño de un Modelo de Calidad", requiere: ["Control Estadístico de la Calidad"]},
+        {nombre: "Práctica"}
+    ]}
 ];
 
 function guardarProgreso(materiaNombre, aprobada) {
@@ -244,18 +215,9 @@ function renderMalla() {
             divMat.className = "materia";
             divMat.dataset.nombre = mat.nombre;
 
-            // Crear botón para mostrar/ocultar requisitos
-            const btnReq = document.createElement("button");
-            btnReq.textContent = "Mostrar requisitos";
-            btnReq.className = "btn-toggle";
-
             const divReq = document.createElement("div");
             divReq.className = "requisitos";
             divReq.textContent = mat.requiere ? "Requiere: " + mat.requiere.join(", ") : "No tiene requisitos";
-
-            btnReq.addEventListener("click", () => {
-                divReq.style.display = divReq.style.display === "none" ? "block" : "none";
-            });
 
             // Tooltip
             if (mat.requiere) {
@@ -266,7 +228,6 @@ function renderMalla() {
             }
 
             divMat.appendChild(document.createTextNode(mat.nombre));
-            divMat.appendChild(btnReq);
             divMat.appendChild(divReq);
 
             divMat.addEventListener("click", () => {
@@ -294,6 +255,13 @@ function renderMalla() {
 
     cargarProgreso();
 }
+
+// Botón general para mostrar/ocultar todos los requisitos
+document.getElementById("btnMostrarTodos").addEventListener("click", () => {
+    const todos = document.querySelectorAll(".requisitos");
+    const algunVisible = Array.from(todos).some(r => r.style.display === "block");
+    todos.forEach(r => r.style.display = algunVisible ? "none" : "block");
+});
 
 renderMalla();
 </script>
