@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<title>Malla Curricular - Licenciatura en Psicología</title>
+
+<style>
+body {
+  font-family: "Segoe UI", sans-serif;
+  background: #f4f6fb;
+  margin: 0;
+  padding: 20px;
+}
+
+h1 {
+  text-align: center;
+  color: #4a4a7a;
+}
+
+.container {
+  display: flex;
+  gap: 16px;
+  overflow-x: auto;
+}
+
+.trimestre {
+  background: #ffffff;
+  border-radius: 12px;
+  padding: 12px;
+  min-width: 260px;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.08);
+}
+
+.trimestre h2 {
+  text-align: center;
+  font-size: 18px;
+  color: #5b5bb5;
+  margin-bottom: 10px;
+}
+
+.materia {
+  background: #e8ebff;
+  border-radius: 8px;
+  padding: 8px;
+  margin-bottom: 8px;
+  cursor: pointer;
+  position: relative;
+  transition: all 0.2s ease;
+}
+
+.materia:hover {
+  background: #dfe3ff;
+}
+
+.materia.aprobada {
+  background: #c8f2d0;
+  text-decoration: line-through;
+}
+
+.materia.bloqueada {
+  background: #f0f0f0;
+  color: #999;
+  cursor: not-allowed;
+}
+
+.materia.bloqueada:hover::after {
+  content: attr(data-tooltip);
+  position: absolute;
+  bottom: 110%;
+  left: 0;
+  background: #333;
+  color: #fff;
+  padding: 6px 8px;
+  border-radius: 6px;
+  font-size: 12px;
+  white-space: nowrap;
+}
+
+.footer {
+  text-align: center;
+  margin-top: 20px;
+  font-size: 13px;
+  color: #666;
+}
+</style>
+</head>
+
+<body>
+
+<h1>Malla Curricular – Licenciatura en Psicología</h1>
+
+<div class="container" id="malla"></div>
+
+<div class="footer">
+Haz clic en una materia para marcarla como aprobada. El progreso se guarda automáticamente.
+</div>
+
+<script>
+const data = [
+  { t:"I Trimestre", m:[
+    {n:"Español"},
+    {n:"Biología"},
+    {n:"Matemáticas"},
+    {n:"Introducción a la Psicología"},
+    {n:"Filosofía"}
+  ]},
+  { t:"II Trimestre", m:[
+    {n:"Expresión Oral y Escrita", r:["Español"]},
+    {n:"Sociología"},
+    {n:"Estadística", r:["Matemáticas"]},
+    {n:"Historia de Honduras"},
+    {n:"Teorías de Personalidad", r:["Introducción a la Psicología"]},
+    {n:"El Hombre Frente a la Vida", r:["Filosofía"]}
+  ]},
+  { t:"III Trimestre", m:[
+    {n:"Psicofisiología I", r:["Biología"]},
+    {n:"Métodos y Técnicas de Investigación", r:["Estadística"]},
+    {n:"Entrevista Psicológica", r:["Expresión Oral y Escrita"]},
+    {n:"Redacción Psicológica", r:["Expresión Oral y Escrita"]},
+    {n:"Informática"},
+    {n:"Ética Profesional", r:["El Hombre Frente a la Vida"]},
+    {n:"Ecología"},
+    {n:"Electiva I"}
+  ]},
+  { t:"IV Trimestre", m:[
+    {n:"Psicofisiología II", r:["Psicofisiología I"]},
+    {n:"Métodos de Investigación Psicológica", r:["Métodos y Técnicas de Investigación"]},
+    {n:"Psicología del Desarrollo del Niño", r:["Teorías de Personalidad"]},
+    {n:"Psicología del Desarrollo del Adolescente", r:["Teorías de Personalidad"]},
+    {n:"Psicopatología I"},
+    {n:"Electiva II"},
+    {n:"Electiva III"},
+    {n:"Doctrina Social de la Iglesia", r:["Ética Profesional"]}
+  ]},
+  { t:"V Trimestre", m:[
+    {n:"Psicometría I", r:["Métodos de Investigación Psicológica","Psicología del Desarrollo del Niño"]},
+    {n:"Teoría y Clínica del Psicoanálisis", r:["Psicología del Desarrollo del Niño"]},
+    {n:"Psicología de las Organizaciones I", r:["Métodos de Investigación Psicológica"]},
+    {n:"Psicología Social I", r:["Métodos de Investigación Psicológica"]},
+    {n:"Psicopatología II", r:["Psicopatología I"]},
+    {n:"Psicología del Desarrollo de la Adultez y la Vejez", r:["Psicología del Desarrollo del Adolescente"]},
+    {n:"Ética en Psicología", r:["Ética Profesional"]}
+  ]},
+  { t:"VI Trimestre", m:[
+    {n:"Psicometría II", r:["Psicometría I"]},
+    {n:"Técnicas Proyectivas I", r:["Teoría y Clínica del Psicoanálisis"]},
+    {n:"Teoría e Intervención en Psicología Humanística", r:["Psicología del Desarrollo de la Adultez y la Vejez"]},
+    {n:"Psicología de las Organizaciones II", r:["Psicología de las Organizaciones I"]},
+    {n:"Psicología Social II", r:["Psicología Social I"]},
+    {n:"Psicología del Aprendizaje", r:["Métodos de Investigación Psicológica"]},
+    {n:"Gestión de la Calidad Total"}
+  ]},
+  { t:"VII Trimestre", m:[
+    {n:"Psicometría III", r:["Psicometría II"]},
+    {n:"Técnicas Proyectivas II", r:["Técnicas Proyectivas I"]},
+    {n:"Teoría e Intervención en Psicología Cognitiva", r:["Teoría e Intervención en Psicología Humanística"]},
+    {n:"Psicología del Talento Humano", r:["Psicología de las Organizaciones II"]},
+    {n:"Psicología del Deporte", r:["Psicología de las Organizaciones II"]},
+    {n:"Psicología Preventiva y Salud Pública", r:["Psicología Social II"]},
+    {n:"Psicología Educativa", r:["Psicología del Aprendizaje"]}
+  ]},
+  { t:"VIII Trimestre", m:[
+    {n:"Psicometría IV", r:["Psicometría III"]},
+    {n:"Teoría y Abordaje de la Intervención en Crisis", r:["Psicología Preventiva y Salud Pública"]},
+    {n:"Técnicas Terapéuticas I", r:["Teoría e Intervención en Psicología Cognitiva"]},
+    {n:"Orientación y Consejería Psicológica", r:["Teoría e Intervención en Psicología Cognitiva"]},
+    {n:"Diagnóstico e Intervención Psicoeducativa", r:["Psicología Educativa"]},
+    {n:"Control Estadístico de la Calidad", r:["Gestión de la Calidad Total"]}
+  ]},
+  { t:"IX Trimestre", m:[
+    {n:"Técnicas Terapéuticas II", r:["Técnicas Terapéuticas I"]},
+    {n:"Diagnósticos e Informes Psicológicos", r:["Técnicas Proyectivas II","Psicometría IV"]},
+    {n:"Metodología y Modelos de Intervención Comunitaria", r:["Teoría y Abordaje de la Intervención en Crisis"]},
+    {n:"Orientación Vocacional y Profesional", r:["Diagnóstico e Intervención Psicoeducativa"]},
+    {n:"Psicología Jurídica", r:["Orientación y Consejería Psicológica"]},
+    {n:"Nutrición"}
+  ]},
+  { t:"X Trimestre", m:[
+    {n:"Diseño y Desarrollo de Proyectos de Psicología Aplicada"},
+    {n:"Seminario de Investigación en Psicología Aplicada"},
+    {n:"Seminario de Salud Mental en Honduras"},
+    {n:"Planeación y Diseño de un Modelo de Calidad", r:["Control Estadístico de la Calidad"]},
+    {n:"Práctica"}
+  ]}
+];
+
+let aprobadas = JSON.parse(localStorage.getItem("aprobadas")) || [];
+
+function render() {
+  const cont = document.getElementById("malla");
+  cont.innerHTML = "";
+
+  data.forEach(tri => {
+    const div = document.createElement("div");
+    div.className = "trimestre";
+    div.innerHTML = `<h2>${tri.t}</h2>`;
+
+    tri.m.forEach(mat => {
+      const el = document.createElement("div");
+      el.className = "materia";
+      el.textContent = mat.n;
+
+      const faltan = (mat.r || []).filter(r => !aprobadas.includes(r));
+
+      if (faltan.length > 0) {
+        el.classList.add("bloqueada");
+        el.dataset.tooltip = "Falta aprobar: " + faltan.join(", ");
+      } else {
+        if (aprobadas.includes(mat.n)) el.classList.add("aprobada");
+        el.onclick = () => toggle(mat.n);
+      }
+      div.appendChild(el);
+    });
+
+    cont.appendChild(div);
+  });
+}
+
+function toggle(nombre) {
+  if (aprobadas.includes(nombre)) {
+    aprobadas = aprobadas.filter(m => m !== nombre);
+  } else {
+    aprobadas.push(nombre);
+  }
+  localStorage.setItem("aprobadas", JSON.stringify(aprobadas));
+  render();
+}
+
+render();
+</script>
+
+</body>
+</html>
